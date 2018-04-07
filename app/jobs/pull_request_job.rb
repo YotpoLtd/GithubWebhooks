@@ -1,14 +1,20 @@
 class PullRequestJob < ApplicationJob
   queue_as :default
 
-  ALLOWED_ACTIONS = %w(opened reopened)
-  JIRA_CODE_PLACEHOLDER = '{{JIRA_CODE}}'
-  JIRA_PROJECTS = %w(PUF)
-  GITHUB_ORGANIZATION_NAME = 'YotpoLtd'
-  ALLOWED_REPOSITORIES = %w(yotpo-email-templates)
+  def self.configure &block
+    block.call(config)
+  end
+
+  def self.config
+    @config ||= OpenStruct.new
+  end
+
+  def config
+    self.class.config
+  end
 
   def perform(payload)
-    return unless payload[:action].in?(ALLOWED_ACTIONS)
+    return unless payload[:action].in?(config.allowed_actions)
 
     repository_name = payload[:repository][:full_name]
     pull_request_number = payload[:number]
@@ -21,14 +27,14 @@ class PullRequestJob < ApplicationJob
     return if pull_request_data[:merged]
 
     pull_request_body = pull_request_data[:body]
-    return if pull_request_body.index(JIRA_CODE_PLACEHOLDER).nil?
+    return if pull_request_body.index(config.jira_code_placeholder).nil?
 
     head_branch_name = pull_request_data[:head][:ref]
     jira_code = extract_jira_code(head_branch_name)
     return if jira_code.nil?
 
     update_options = {
-      body: pull_request_body.gsub(JIRA_CODE_PLACEHOLDER, jira_code)
+      body: pull_request_body.gsub(config.jira_code_placeholder, jira_code)
     }
     Octokit.update_pull_request(repository_name, pull_request_number, update_options)
   end
@@ -43,16 +49,15 @@ class PullRequestJob < ApplicationJob
 
   def jira_code_regex
     return @jira_code_regex unless @jira_code_regex.nil?
-    jira_projects = JIRA_PROJECTS.map(&:downcase).map(&:strip).uniq
-    pattern = "(^#{jira_projects.join('|')})-([0-9]+)(-|)"
+    pattern = "(^#{config.allowed_jira_projects.join('|')})-([0-9]+)(-|)"
     @jira_code_regex = Regexp.new(pattern, Regexp::IGNORECASE)
     @jira_code_regex
   end
 
   def repository_name_regex
     return @repository_name_regex unless @repository_name_regex.nil?
-    repository_names = ALLOWED_REPOSITORIES.map(&:strip).uniq
-    pattern = "(^#{GITHUB_ORGANIZATION_NAME})/(#{repository_names.join('|')})"
+    repository_names = config.allowed_repositories.map(&:strip).uniq
+    pattern = "(^#{config.organization_name})/(#{repository_names.join('|')})"
     @repository_name_regex = Regexp.new(pattern)
     @repository_name_regex
   end
