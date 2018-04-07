@@ -2,7 +2,7 @@ class GithubWebhooksController < ApplicationController
   include GithubWebhook::Processor
 
   def github_pull_request(payload)
-    logger.debug(payload)
+    PullRequestJob.perform_later(payload)
     render status: 200, json: '{}'
   end
 
