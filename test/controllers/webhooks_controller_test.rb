@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class GithubWebhooksControllerTest < ActionDispatch::IntegrationTest
+class WebhooksControllerTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end
