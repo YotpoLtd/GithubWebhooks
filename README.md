@@ -2,7 +2,7 @@
 
 This is a simple Github webhooks Rails server.
 
-Make sure you have rvm set up according to the ```.ruby-*``` files.
+Make sure you have ```rvm``` set up according to the ```.ruby-*``` files.
 
 ```
 gem install bundler
