@@ -1,18 +1,4 @@
-class PullRequestJob < ApplicationJob
-  queue_as :default
-
-  def self.configure &block
-    block.call(config)
-  end
-
-  def self.config
-    @config ||= OpenStruct.new
-  end
-
-  def config
-    self.class.config
-  end
-
+class PullRequestJob < WebhooksJob
   def perform(payload)
     return unless payload[:action].in?(config.allowed_actions)
 
