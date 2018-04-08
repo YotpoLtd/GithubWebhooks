@@ -5,7 +5,7 @@ class PullRequestJob < WebhooksJob
     repository_name = payload[:repository][:full_name]
     pull_request_number = payload[:number]
 
-    return unless repository_name.match?(repository_name_regex)
+    return unless repository_name.match?(config.repository_name_regex)
 
     pull_request_data = Octokit.pull_request(repository_name, pull_request_number)
 
@@ -28,23 +28,8 @@ class PullRequestJob < WebhooksJob
   private
 
   def extract_jira_code(branch_name)
-    match_result = branch_name.scan(jira_code_regex).first
+    match_result = branch_name.scan(config.jira_code_regex).first
     return nil if match_result.nil?
     match_result.first(2).map(&:upcase).join('-')
-  end
-
-  def jira_code_regex
-    return @jira_code_regex unless @jira_code_regex.nil?
-    pattern = "(^#{config.allowed_jira_projects.join('|')})-([0-9]+)(-|)"
-    @jira_code_regex = Regexp.new(pattern, Regexp::IGNORECASE)
-    @jira_code_regex
-  end
-
-  def repository_name_regex
-    return @repository_name_regex unless @repository_name_regex.nil?
-    repository_names = config.allowed_repositories.map(&:strip).uniq
-    pattern = "(^#{config.organization_name})/(#{repository_names.join('|')})"
-    @repository_name_regex = Regexp.new(pattern)
-    @repository_name_regex
   end
 end
