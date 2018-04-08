@@ -1,24 +1,24 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a simple Github webhooks Rails server.
 
-Things you may want to cover:
+Make sure you have rvm set up according to the ```.ruby-*``` files.
 
-* Ruby version
+```
+gem install bundler
+bundle install
+```
 
-* System dependencies
+Export some envs
 
-* Configuration
+```
+export GITHUB_WEBHOOK_SECRET={{YOUR_SECRET_HERE}}
+export OCTOKIT_ACCESS_TOKEN={{YOUR_TOKEN_HERE}}
+export ALLOWED_REPOSITORIES=yotpo-email-templates
+export GITHUB_ORGANIZATION_NAME=YotpoLtd
+export ALLOWED_JIRA_PROJECTS=puf yo
+export ALLOWED_PULL_REQUEST_ACTIONS=edited opened reopened
+export WEBHOOKS_ALLOWED_EVENTS=pull_request
+```
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+And fire it up with ```rails s```.
