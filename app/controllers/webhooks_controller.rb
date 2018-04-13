@@ -2,7 +2,7 @@ class WebhooksController < ApplicationController
   include GithubWebhook::Processor
 
   def create
-    EventRouter.perform(event_method.to_s.sub!(/^github_/, ''), json_body)
+    JobsDispatcher.dispatch(event_method.to_s.sub!(/^github_/, ''), json_body)
     head(:ok)
   end
 

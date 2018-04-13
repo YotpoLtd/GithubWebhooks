@@ -1,0 +1,4 @@
+- job_name: Pull Request Body Changer
+  event_method: pull_request
+- job_name: Push Alert Not Verified
+  event_method: push

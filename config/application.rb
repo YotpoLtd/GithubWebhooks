@@ -16,6 +16,9 @@ require 'rails/test_unit/railtie'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+require File.expand_path('../app/concerns/exceptions', __dir__)
+require File.expand_path('jobs/configuration_loader.rb', __dir__)
+
 module GithubWebhooks
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
