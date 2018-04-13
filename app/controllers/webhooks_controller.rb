@@ -1,4 +1,5 @@
 class WebhooksController < ApplicationController
+  protect_from_forgery except: :create
   include GithubWebhook::Processor
 
   def create
