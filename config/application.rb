@@ -16,7 +16,7 @@ require 'rails/test_unit/railtie'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-expand_path('../lib/webhooks_processor', __dir__)
+File.expand_path('../lib/webhooks_processor', __dir__)
 
 module GithubWebhooks
   class Application < Rails::Application
