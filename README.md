@@ -18,7 +18,6 @@ export ALLOWED_REPOSITORIES=yotpo-email-templates
 export GITHUB_ORGANIZATION_NAME=YotpoLtd
 export ALLOWED_JIRA_PROJECTS=puf yo
 export ALLOWED_PULL_REQUEST_ACTIONS=edited opened reopened
-export WEBHOOKS_ALLOWED_EVENTS=pull_request
 ```
 
 And fire it up with ```rails s```.
