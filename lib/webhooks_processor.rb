@@ -14,7 +14,7 @@ module WebhooksProcessor
 
   private
 
-  def webhook_secret(payload)
+  def webhook_secret(_payload)
     ENV['GITHUB_WEBHOOK_SECRET']
   end
 end

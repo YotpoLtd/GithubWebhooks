@@ -1,7 +1,7 @@
 class WebhooksJob < ApplicationJob
   queue_as :default
 
-  def self.configure &block
+  def self.configure(&block)
     block.call(config)
   end
 
