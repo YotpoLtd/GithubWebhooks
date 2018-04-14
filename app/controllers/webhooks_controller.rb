@@ -2,7 +2,8 @@ class WebhooksController < ApplicationController
   include GithubWebhook::Processor
 
   def create
-    JobsDispatcher.dispatch(event_name, json_body)
+    event = Event.new(event_name, json_body)
+    EventsPipeline.process(event)
     head(:ok)
   end
 

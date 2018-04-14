@@ -1,9 +1,9 @@
-- job_name: Pull Request Body Changer
+- name: Pull Request Body Changer
   event: pull_request
   repositories:
     - YotpoLtd/yotpo-email-templates
   job_class: PullRequestJob
-- job_name: Push Commit Format Verifier
+- name: Push Commit Format Verifier
   event: push
   inactive: true
   repositories: :all
