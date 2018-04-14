@@ -4,9 +4,9 @@ class MatchedJobsProvider
   end
   @job_configurations = []
 
-  def self.get_matched(event_method, payload)
+  def self.get_matched(event_name, payload)
     matched_job_configurations = job_configurations.select do |job_configuration|
-      job_configuration.should_process?(event_method, payload)
+      job_configuration.should_process?(event_name, payload)
     end
 
     matched_job_configurations.map(&:job_class).uniq
