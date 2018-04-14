@@ -2,8 +2,9 @@
   event: pull_request
   repositories:
     - YotpoLtd/yotpo-email-templates
+    - udiudi/Git*Webhooks
   job_class: PullRequestJob
 - name: Push Commit Format Verifier
   event: push
+  repositories: '*'
   inactive: true
-  repositories: :all
