@@ -1,18 +1,18 @@
 class JobConfiguration
   def initialize(config)
-    @job_event_method = config['event_method']
+    @job_event_name = config['event']
 
     if config.key?('job_class')
       @job_class = config['job_class'].constantize
     else
-      @job_class = [@job_event_method, 'job'].join('_').camelize.constantize
+      @job_class = [@job_event_name, 'job'].join('_').camelize.constantize
     end
 
     @job_repositories = config['repositories'] || []
   end
 
-  def should_process?(event_method, payload)
-    return false if job_event_method != event_method
+  def should_process?(event_name, payload)
+    return false if job_event_name != event_name
 
     unless job_repositories == :all
       repository = payload['repository']['full_name']
@@ -26,6 +26,6 @@ class JobConfiguration
 
   private
 
-  attr_reader :job_event_method
+  attr_reader :job_event_name
   attr_reader :job_repositories
 end
