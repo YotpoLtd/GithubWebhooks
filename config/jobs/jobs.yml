@@ -1,4 +1,8 @@
 - job_name: Pull Request Body Changer
   event_method: pull_request
-- job_name: Push Alert Not Verified
-  event_method: push
+  repositories:
+    - YotpoLtd/yotpo-email-templates
+  job_class: PullRequestJob
+- job_name: Pull Request Assignee Verifier
+  event_method: pull_request
+  repositories: :all
