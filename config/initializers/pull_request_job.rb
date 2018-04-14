@@ -9,14 +9,4 @@ PullRequestJob.configure do |conf|
   conf.jira_code_regex = Regexp.new(pattern, Regexp::IGNORECASE)
 
   conf.jira_code_placeholder = '{{JIRA_CODE}}'
-
-  # export ALLOWED_REPOSITORIES="repo-name"
-  allowed_repositories = (ENV['ALLOWED_REPOSITORIES'] || '').split.map(&:strip).uniq
-  raise StandardError, 'Mandatory env ALLOWED_REPOSITORIES is missing or empty' if allowed_repositories.empty?
-
-  # export GITHUB_ORGANIZATION_NAME="YotpoLtd"
-  organization_name = ENV['GITHUB_ORGANIZATION_NAME']
-  raise StandardError, 'Mandatory env GITHUB_ORGANIZATION_NAME is missing or empty' if organization_name.blank?
-  pattern = "(^#{organization_name})/(#{allowed_repositories.join('|')})$"
-  conf.repository_name_regex = Regexp.new(pattern)
 end
