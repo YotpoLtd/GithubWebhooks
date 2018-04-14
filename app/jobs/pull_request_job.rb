@@ -5,8 +5,6 @@ class PullRequestJob < WebhooksJob
     repository_name = payload[:repository][:full_name]
     pull_request_number = payload[:number]
 
-    return unless repository_name.match?(config.repository_name_regex)
-
     pull_request_data = Octokit.pull_request(repository_name, pull_request_number)
 
     return if pull_request_data[:state] != 'open'
