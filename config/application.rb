@@ -17,6 +17,7 @@ require 'rails/test_unit/railtie'
 Bundler.require(*Rails.groups)
 
 require File.expand_path('../app/concerns/exceptions', __dir__)
+require File.expand_path('../lib/common/string_utils', __dir__)
 
 module GithubWebhooks
   class Application < Rails::Application
