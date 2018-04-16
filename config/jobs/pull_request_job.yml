@@ -1,0 +1,8 @@
+config:
+  actions:
+    - opened
+    - reopened
+    - edited
+  jira_projects:
+    - yo
+    - puf
